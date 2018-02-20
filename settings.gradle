@@ -1,1 +1,1 @@
-include ':identifai'
+include ':identifai', ':app-core', ':sound'
