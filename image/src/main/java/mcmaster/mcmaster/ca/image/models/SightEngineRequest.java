@@ -10,21 +10,21 @@ public class SightEngineRequest implements Parcelable {
     public final String id;
 
     @SerializedName("timestamp")
-    public final long timestamp;
+    public final double timestamp;
 
     @SerializedName("operations")
     public final int operations;
 
     protected SightEngineRequest(Parcel in) {
         id = in.readString();
-        timestamp = in.readLong();
+        timestamp = in.readDouble();
         operations = in.readInt();
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(id);
-        dest.writeLong(timestamp);
+        dest.writeDouble(timestamp);
         dest.writeInt(operations);
     }
 

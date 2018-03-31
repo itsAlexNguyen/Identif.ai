@@ -21,7 +21,7 @@ import java.lang.reflect.Type;
 /**
  * This contains all the networking logic to retrieve image detection results.
  */
-public class ImageDetectionService {
+public final class ImageDetectionService {
     // Helpers to convert MediaType.
     private static final MediaType MEDIA_TYPE_PNG = MediaType.parse("image/png");
 

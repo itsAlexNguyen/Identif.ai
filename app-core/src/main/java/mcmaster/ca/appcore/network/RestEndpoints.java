@@ -1,5 +1,7 @@
 package mcmaster.ca.appcore.network;
 
+import android.support.annotation.NonNull;
+
 /**
  * This contains all the Endpoints used in the Identif.ai Application.
  */
@@ -10,6 +12,14 @@ public final class RestEndpoints {
     // Sound Detection Endpoints
 
     // Text Detection Endpoints
+    public static final String THE_MOVIE_DB_BASE_URL = "https://api.themoviedb.org/3";
+    public static final String MOVIE_PATH = "/movie/";
+    public static final String CREDITS_PATH = "/credits";
+    public static final String SEARCH_MOVIE_PATH = "/search/movie";
+
+    public static String getMoviePath(@NonNull String movieId) {
+        return MOVIE_PATH + movieId + CREDITS_PATH;
+    }
 
     private RestEndpoints() {
         // Do not allow clients to instantiate
