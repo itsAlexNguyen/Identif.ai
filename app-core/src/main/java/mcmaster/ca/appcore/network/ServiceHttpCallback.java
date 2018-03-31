@@ -20,13 +20,13 @@ import okhttp3.Response;
  * @param <T>
  *     Generic response object.
  */
-class ServiceHttpCallback<T> implements Callback {
+public class ServiceHttpCallback<T> implements Callback {
     private final String TAG = ServiceHttpCallback.class.getSimpleName();
     private final Type type;
 
     private final HttpCallback<T> callback;
 
-    ServiceHttpCallback(@NonNull Type type, @NonNull HttpCallback<T> callback) {
+    public ServiceHttpCallback(@NonNull Type type, @NonNull HttpCallback<T> callback) {
         this.type = type;
         this.callback = callback;
     }

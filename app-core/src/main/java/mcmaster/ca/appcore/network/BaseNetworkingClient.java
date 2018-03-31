@@ -7,13 +7,13 @@ import okhttp3.Request;
 /**
  * Wrapper class for Random User Generator.
  */
-class BaseNetworkingClient {
+public class BaseNetworkingClient {
     private OkHttpClient client;
 
     /**
      * Constructor.
      */
-    BaseNetworkingClient() {
+    public BaseNetworkingClient() {
         client = new OkHttpClient();
     }
 
@@ -25,7 +25,7 @@ class BaseNetworkingClient {
      *
      * @return new Request builder.
      */
-    Request.Builder createRequestBuilder(String path) {
+    public Request.Builder createRequestBuilder(String path) {
         return new Request.Builder().url(path);
     }
 
@@ -37,7 +37,8 @@ class BaseNetworkingClient {
      * @param callback
      *     new callback.
      */
-    void enqueueRequest(Request request, Callback callback) {
-        client.newCall(request).enqueue(callback);
+    public void enqueueRequest(Request request, Callback callback) {
+        client.newCall(request)
+            .enqueue(callback);
     }
 }

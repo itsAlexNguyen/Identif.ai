@@ -1,5 +1,6 @@
 package mcmaster.ca.identifai
 
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.design.widget.NavigationView
@@ -10,6 +11,8 @@ import android.view.Menu
 import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_dashboard.*
 import kotlinx.android.synthetic.main.app_bar_dashboard.*
+import mcmaster.ca.identifai.presenter.DashboardPresenter
+import mcmaster.mcmaster.ca.image.ImageDetectionService
 
 class DashboardActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -29,6 +32,7 @@ class DashboardActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
         toggle.syncState()
 
         nav_view.setNavigationItemSelectedListener(this)
+        val presenter = DashboardPresenter(resources)
     }
 
     override fun onBackPressed() {
