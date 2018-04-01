@@ -1,6 +1,5 @@
-package mcmaster.ca.identifai
+package mcmaster.ca.identifai.controllers
 
-import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.design.widget.NavigationView
@@ -11,10 +10,11 @@ import android.view.Menu
 import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_dashboard.*
 import kotlinx.android.synthetic.main.app_bar_dashboard.*
-import mcmaster.ca.identifai.presenter.DashboardPresenter
-import mcmaster.mcmaster.ca.image.ImageDetectionService
+import kotlinx.android.synthetic.main.content_dashboard.*
+import mcmaster.ca.appcore.ui.launchActivity
+import mcmaster.ca.identifai.R
 
-class DashboardActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class MainController : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,13 +26,23 @@ class DashboardActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
                     .setAction("Action", null).show()
         }
 
+        identifyButton.setOnClickListener {
+            launchActivity<InputController> { }
+        }
+
+        viewRecentSearchesButton.setOnClickListener {
+            // TODO - Open Recent Searches
+        }
+
+        viewSavedSearchesButton.setOnClickListener {
+            // TODO - Open saved searches
+        }
         val toggle = ActionBarDrawerToggle(
                 this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
         drawer_layout.addDrawerListener(toggle)
         toggle.syncState()
 
         nav_view.setNavigationItemSelectedListener(this)
-        val presenter = DashboardPresenter(resources)
     }
 
     override fun onBackPressed() {
