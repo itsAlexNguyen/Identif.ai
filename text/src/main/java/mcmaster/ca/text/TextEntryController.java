@@ -27,6 +27,7 @@ public class TextEntryController extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_text_entry_controller);
+        setTitle(R.string.enter_text);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setElevation(0);
         }

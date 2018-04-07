@@ -77,5 +77,11 @@ public class InputController extends BaseActivity {
             imageButton.setTextColor(Color.WHITE);
             imageButton.setEnabled(false);
         }
+
+        if (resultCode == SoundController.RESULT_CODE) {
+            soundButton.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+            soundButton.setTextColor(Color.WHITE);
+            soundButton.setEnabled(false);
+        }
     }
 }

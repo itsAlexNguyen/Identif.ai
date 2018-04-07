@@ -1,6 +1,9 @@
 package mcmaster.ca.sound;
 
 import java.io.File;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -9,8 +12,12 @@ import org.json.JSONObject;
 import com.acrcloud.rec.sdk.ACRCloudConfig;
 import com.acrcloud.rec.sdk.ACRCloudClient;
 import com.acrcloud.rec.sdk.IACRCloudListener;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 
 import android.Manifest;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
@@ -21,25 +28,28 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import mcmaster.ca.appcore.datastore.BaseDataStore;
+import static mcmaster.ca.appcore.datastore.BaseDataStore.RESULTS_PARAM;
+import mcmaster.ca.appcore.datastore.PersonResult;
+import mcmaster.ca.sound.models.Artist;
+import mcmaster.ca.sound.models.Music;
+import mcmaster.ca.sound.models.SoundResult;
+
 public class SoundController extends AppCompatActivity implements IACRCloudListener {
+    public static final int RESULT_CODE = 3003;
     private ACRCloudClient mClient;
     private ACRCloudConfig mConfig;
-
-    private TextView mVolume, mResult, tv_time;
 
     private boolean mProcessing = false;
     private boolean initState = false;
 
     private String path = "";
 
-    private long startTime = 0;
-    private long stopTime = 0;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sound);
-
+        setTitle(R.string.record_sound);
         ActivityCompat.requestPermissions(this,
             new String[] { Manifest.permission.RECORD_AUDIO, Manifest.permission.ACCESS_NETWORK_STATE,
                 Manifest.permission.ACCESS_WIFI_STATE, Manifest.permission.INTERNET,
@@ -53,10 +63,6 @@ public class SoundController extends AppCompatActivity implements IACRCloudListe
         if (!file.exists()) {
             file.mkdirs();
         }
-
-        mVolume = (TextView)findViewById(R.id.volume);
-        mResult = (TextView)findViewById(R.id.result);
-        tv_time = (TextView)findViewById(R.id.time);
 
         Button startBtn = (Button)findViewById(R.id.start);
         startBtn.setText("Start");
@@ -96,10 +102,6 @@ public class SoundController extends AppCompatActivity implements IACRCloudListe
         this.mConfig = new ACRCloudConfig();
         this.mConfig.acrcloudListener = this;
 
-        // If you implement IACRCloudResultWithAudioListener and override "onResult(ACRCloudResult result)", you can
-        // get the Audio data.
-        //this.mConfig.acrcloudResultWithAudioListener = this;
-
         this.mConfig.context = this;
         this.mConfig.host = "identify-us-west-2.acrcloud.com";
         this.mConfig.dbPath = path; // offline db path, you can change it with other path which this app can access.
@@ -107,12 +109,8 @@ public class SoundController extends AppCompatActivity implements IACRCloudListe
         this.mConfig.accessSecret = "Jx23kVVMaWhNi6mEWtnrqD1Z7WfnvLcFsUOmi2gS";
         this.mConfig.protocol = ACRCloudConfig.ACRCloudNetworkProtocol.PROTOCOL_HTTP; // PROTOCOL_HTTPS
         this.mConfig.reqMode = ACRCloudConfig.ACRCloudRecMode.REC_MODE_REMOTE;
-        //this.mConfig.reqMode = ACRCloudConfig.ACRCloudRecMode.REC_MODE_LOCAL;
-        //this.mConfig.reqMode = ACRCloudConfig.ACRCloudRecMode.REC_MODE_BOTH;
 
         this.mClient = new ACRCloudClient();
-        // If reqMode is REC_MODE_LOCAL or REC_MODE_BOTH,
-        // the function initWithConfig is used to load offline db, and it may cost long time.
         this.initState = this.mClient.initWithConfig(this.mConfig);
         if (this.initState) {
             this.mClient
@@ -129,13 +127,9 @@ public class SoundController extends AppCompatActivity implements IACRCloudListe
 
         if (!mProcessing) {
             mProcessing = true;
-            mVolume.setText("");
-            mResult.setText("");
             if (this.mClient == null || !this.mClient.startRecognize()) {
                 mProcessing = false;
-                mResult.setText("start error!");
             }
-            startTime = System.currentTimeMillis();
         }
     }
 
@@ -144,20 +138,15 @@ public class SoundController extends AppCompatActivity implements IACRCloudListe
             this.mClient.stopRecordToRecognize();
         }
         mProcessing = false;
-
-        stopTime = System.currentTimeMillis();
     }
 
     protected void cancel() {
         if (mProcessing && this.mClient != null) {
             mProcessing = false;
             this.mClient.cancel();
-            tv_time.setText("");
-            mResult.setText("");
         }
     }
 
-    // Old api
     @Override
     public void onResult(String result) {
         if (this.mClient != null) {
@@ -165,76 +154,38 @@ public class SoundController extends AppCompatActivity implements IACRCloudListe
             mProcessing = false;
         }
 
-        String tres = "\n";
-
-        try {
-            JSONObject j = new JSONObject(result);
-            JSONObject j1 = j.getJSONObject("status");
-            int j2 = j1.getInt("code");
-            if (j2 == 0) {
-                JSONObject metadata = j.getJSONObject("metadata");
-                //
-                if (metadata.has("humming")) {
-                    JSONArray hummings = metadata.getJSONArray("humming");
-                    for (int i = 0; i < hummings.length(); i++) {
-                        JSONObject tt = (JSONObject)hummings.get(i);
-                        String title = tt.getString("title");
-                        JSONArray artistt = tt.getJSONArray("artists");
-                        JSONObject art = (JSONObject)artistt.get(0);
-                        String artist = art.getString("name");
-                        tres = tres + (i + 1) + ".  " + title + "\n";
-                    }
-                }
-                if (metadata.has("music")) {
-                    JSONArray musics = metadata.getJSONArray("music");
-                    for (int i = 0; i < musics.length(); i++) {
-                        JSONObject tt = (JSONObject)musics.get(i);
-                        String title = tt.getString("title");
-                        JSONArray artistt = tt.getJSONArray("artists");
-                        JSONObject art = (JSONObject)artistt.get(0);
-                        String artist = art.getString("name");
-                        tres = tres + (i + 1) + ".  Title: " + title + "    Artist: " + artist + "\n";
-                    }
-                }
-                if (metadata.has("streams")) {
-                    JSONArray musics = metadata.getJSONArray("streams");
-                    for (int i = 0; i < musics.length(); i++) {
-                        JSONObject tt = (JSONObject)musics.get(i);
-                        String title = tt.getString("title");
-                        String channelId = tt.getString("channel_id");
-                        tres = tres + (i + 1) + ".  Title: " + title + "    Channel Id: " + channelId + "\n";
-                    }
-                }
-                if (metadata.has("custom_files")) {
-                    JSONArray musics = metadata.getJSONArray("custom_files");
-                    for (int i = 0; i < musics.length(); i++) {
-                        JSONObject tt = (JSONObject)musics.get(i);
-                        String title = tt.getString("title");
-                        tres = tres + (i + 1) + ".  Title: " + title + "\n";
-                    }
-                }
-                tres = tres + "\n\n" + result;
-            } else {
-                tres = result;
-            }
-        } catch (JSONException e) {
-            tres = result;
-            e.printStackTrace();
+        Gson gson = new GsonBuilder().create();
+        Type type = new TypeToken<SoundResult>() {}.getType();
+        SoundResult soundResult = gson.fromJson(result, type);
+        List<Artist> celebrities = new ArrayList<>();
+        for (Music song : soundResult.metadata.music) {
+            celebrities.addAll(song.artists);
         }
+        handleNetworkResponse(celebrities);
+    }
 
-        mResult.setText(tres);
+    private void handleNetworkResponse(List<Artist> celebrities) {
+        ArrayList<PersonResult> convertedResults = new ArrayList<>();
+        if (celebrities != null && !celebrities.isEmpty()) {
+            for (int i = 0; i < Math.min(celebrities.size(), BaseDataStore.MAX_RESULTS_FOR_EXPERT); i++) {
+                Artist member = celebrities.get(i);
+                convertedResults.add(new PersonResult(member.name, 5 - i));
+            }
+        }
+        Intent data = new Intent();
+        data.putParcelableArrayListExtra(RESULTS_PARAM, convertedResults);
+        setResult(RESULT_CODE, data);
+        finish();
     }
 
     @Override
-    public void onVolumeChanged(double volume) {
-        long time = (System.currentTimeMillis() - startTime) / 1000;
-        mVolume.setText("Volume" + volume + "\n\n录音时间：" + time + " s");
+    public void onVolumeChanged(double v) {
+        // Intentionally left empty.
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.e("MainActivity", "release");
         if (this.mClient != null) {
             this.mClient.release();
             this.initState = false;

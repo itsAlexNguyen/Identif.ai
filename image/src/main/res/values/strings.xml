@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">image</string>
+    <string name="select_image">Select an Image</string>
 </resources>

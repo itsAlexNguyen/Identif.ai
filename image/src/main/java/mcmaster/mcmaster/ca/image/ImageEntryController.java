@@ -41,6 +41,7 @@ public class ImageEntryController extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_entry_controller);
+        setTitle(R.string.select_image);
         Button imageEntryButton = findViewById(R.id.select_image_button);
         imageEntryButton.setOnClickListener(new View.OnClickListener() {
             @Override
