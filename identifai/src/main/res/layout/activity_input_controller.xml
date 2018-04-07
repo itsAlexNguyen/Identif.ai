@@ -15,28 +15,43 @@
             android:id="@+id/text_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:text="Text Entry" />
+            android:text="@string/input_text" />
 
         <Button
             android:id="@+id/image_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:text="Image Entry" />
+            android:text="@string/input_image" />
 
         <Button
             android:id="@+id/sound_buuton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:text="Sound Entry" />
+            android:text="@string/input_souond" />
     </LinearLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:importantForAccessibility="no"
+        android:src="@drawable/bottom_section" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/submit_button"
+        android:layout_margin="@dimen/app_default_padding"
+        android:text="This is a test for some message description"
+        android:textColor="@android:color/white" />
 
     <Button
         android:id="@+id/submit_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:text="Submit" />
+        android:layout_margin="@dimen/app_default_padding"
+        android:background="@color/colorAccent"
+        android:text="@string/input_submit"
+        android:textColor="@android:color/white" />
 </RelativeLayout>

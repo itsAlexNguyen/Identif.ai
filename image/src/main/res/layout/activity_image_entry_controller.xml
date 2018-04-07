@@ -3,18 +3,49 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="mcmaster.mcmaster.ca.image.ImageEntryController">
+    tools:context="mcmaster.ca.identifai.controllers.InputController">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="15dp">
+
+        <ImageView
+            android:id="@+id/image_view"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/select_image_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Select Image" />
+    </LinearLayout>
 
     <ImageView
-        android:id="@+id/image_view"
-        android:layout_width="250dp"
-        android:layout_height="250dp"
-        android:visibility="gone" />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:importantForAccessibility="no"
+        android:src="@drawable/bottom_section" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/submit_button"
+        android:layout_margin="@dimen/app_default_padding"
+        android:text="This is a test for some message description"
+        android:textColor="@android:color/white" />
 
     <Button
-        android:id="@+id/select_image_button"
-        android:layout_width="wrap_content"
+        android:id="@+id/submit_button"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="Select Image" />
+        android:layout_alignParentBottom="true"
+        android:layout_margin="@dimen/app_default_padding"
+        android:text="Submit"
+        android:textColor="@android:color/white" />
 </RelativeLayout>
