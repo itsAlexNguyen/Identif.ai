@@ -4,5 +4,8 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
+    <string name="main_identify_person">IDENTIFY PERSON</string>
+    <string name="main_recent_searches">RECENT SEARCHES</string>
+    <string name="main_saved_searches">SAVED SEARCHES</string>
     <string name="action_settings">Settings</string>
 </resources>
