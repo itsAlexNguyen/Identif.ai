@@ -22,9 +22,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class SoundController extends AppCompatActivity implements IACRCloudListener {
-    //NOTE: You can also implement IACRCloudResultWithAudioListener, replace "onResult(String result)" with "onResult
-    // (ACRCloudResult result)"
-
     private ACRCloudClient mClient;
     private ACRCloudConfig mConfig;
 
