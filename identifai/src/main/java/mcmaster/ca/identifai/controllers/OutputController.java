@@ -37,31 +37,43 @@ public class OutputController extends AppCompatActivity {
         }
         boolean shouldBeRecentSearch = getIntent().getBooleanExtra(IS_RECENT_SEARCH_PARAM, false);
         if (shouldBeRecentSearch) {
-            AppPreferenceManager preferenceManager = new AppPreferenceManager(this);
-            AppSearchResult newSearch = new AppSearchResult(resultList);
-            preferenceManager.saveRecentSearchResult(newSearch);
+            saveRecentSearch(resultList);
         }
 
         findViewById(R.id.share_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent sendIntent = new Intent();
-                sendIntent.setAction(Intent.ACTION_SEND);
-                AppSearchResult newSearch = new AppSearchResult(resultList);
-                sendIntent.putExtra(Intent.EXTRA_TEXT, newSearch.toString());
-                sendIntent.setType("text/plain");
-                startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.send_to)));
+                goToSharing(resultList);
             }
         });
 
         findViewById(R.id.save_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AppPreferenceManager preferenceManager = new AppPreferenceManager(OutputController.this);
-                AppSearchResult newSearch = new AppSearchResult(resultList);
-                preferenceManager.saveSearchResult(newSearch);
+                saveResults(resultList);
             }
         });
+    }
+
+    private void saveRecentSearch(ArrayList<PersonResult> resultList) {
+        AppPreferenceManager preferenceManager = new AppPreferenceManager(this);
+        AppSearchResult newSearch = new AppSearchResult(resultList);
+        preferenceManager.saveRecentSearchResult(newSearch);
+    }
+
+    private void saveResults(ArrayList<PersonResult> resultList) {
+        AppPreferenceManager preferenceManager = new AppPreferenceManager(this);
+        AppSearchResult newSearch = new AppSearchResult(resultList);
+        preferenceManager.saveSearchResult(newSearch);
+    }
+
+    private void goToSharing(ArrayList<PersonResult> resultList) {
+        Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_SEND);
+        AppSearchResult newSearch = new AppSearchResult(resultList);
+        sendIntent.putExtra(Intent.EXTRA_TEXT, newSearch.toString());
+        sendIntent.setType("text/plain");
+        startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.send_to)));
     }
 
     private InputListener<PersonResult> createSelectionListener() {

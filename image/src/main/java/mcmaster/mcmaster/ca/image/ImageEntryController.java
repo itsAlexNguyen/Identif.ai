@@ -3,8 +3,6 @@ package mcmaster.mcmaster.ca.image;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -16,8 +14,8 @@ import com.esafirm.imagepicker.features.IpCons;
 import com.esafirm.imagepicker.features.ReturnMode;
 import com.esafirm.imagepicker.model.Image;
 
-import mcmaster.ca.appcore.datastore.BaseDataStore;
-import static mcmaster.ca.appcore.datastore.BaseDataStore.RESULTS_PARAM;
+import mcmaster.ca.appcore.datastore.DataController;
+import static mcmaster.ca.appcore.datastore.DataController.RESULTS_PARAM;
 import mcmaster.ca.appcore.datastore.PersonResult;
 import mcmaster.ca.appcore.network.HttpCallback;
 import mcmaster.ca.appcore.ui.BaseActivity;
@@ -55,7 +53,7 @@ public class ImageEntryController extends BaseActivity {
             @Override
             public void onClick(View view) {
                 if (selectedImage != null) {
-                    submitImage(selectedImage);
+                    sendImageToApi(selectedImage);
                 } else {
                     Toast
                         .makeText(ImageEntryController.this, getString(R.string.select_image_error), Toast.LENGTH_SHORT)
@@ -96,7 +94,7 @@ public class ImageEntryController extends BaseActivity {
             .getIntent(this), IpCons.RC_IMAGE_PICKER);
     }
 
-    private void submitImage(Bitmap selectedImage) {
+    private void sendImageToApi(Bitmap selectedImage) {
         showLoading();
         service.retrieveImageResults(selectedImage, new HttpCallback<RetrieveCelebritiesRs>() {
             @Override
@@ -124,7 +122,7 @@ public class ImageEntryController extends BaseActivity {
     private void handleNetworkResponse(List<SightEngineCelebrity> celebrities) {
         ArrayList<PersonResult> convertedResults = new ArrayList<>();
         if (celebrities != null && !celebrities.isEmpty()) {
-            for (int i = 0; i < Math.min(celebrities.size(), BaseDataStore.MAX_RESULTS_FOR_EXPERT); i++) {
+            for (int i = 0; i < Math.min(celebrities.size(), DataController.MAX_RESULTS_FOR_EXPERT); i++) {
                 SightEngineCelebrity member = celebrities.get(i);
                 convertedResults.add(new PersonResult(member.name, 5 - i));
             }

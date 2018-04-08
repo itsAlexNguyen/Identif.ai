@@ -5,10 +5,6 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import com.acrcloud.rec.sdk.ACRCloudConfig;
 import com.acrcloud.rec.sdk.ACRCloudClient;
 import com.acrcloud.rec.sdk.IACRCloudListener;
@@ -22,14 +18,12 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import mcmaster.ca.appcore.datastore.BaseDataStore;
-import static mcmaster.ca.appcore.datastore.BaseDataStore.RESULTS_PARAM;
+import mcmaster.ca.appcore.datastore.DataController;
+import static mcmaster.ca.appcore.datastore.DataController.RESULTS_PARAM;
 import mcmaster.ca.appcore.datastore.PersonResult;
 import mcmaster.ca.sound.models.Artist;
 import mcmaster.ca.sound.models.Music;
@@ -86,7 +80,7 @@ public class SoundController extends AppCompatActivity implements IACRCloudListe
 
             @Override
             public void onClick(View arg0) {
-                start();
+                sendAudioApi();
             }
         });
 
@@ -114,12 +108,12 @@ public class SoundController extends AppCompatActivity implements IACRCloudListe
         this.initState = this.mClient.initWithConfig(this.mConfig);
         if (this.initState) {
             this.mClient
-                .startPreRecord(3000); //start prerecord, you can call "this.mClient.stopPreRecord()" to stop prerecord.
+                .startPreRecord(3000); //sendAudioApi prerecord, you can call "this.mClient.stopPreRecord()" to stop prerecord.
         }
     }
 
 
-    public void start() {
+    public void sendAudioApi() {
         if (!this.initState) {
             Toast.makeText(this, "init error", Toast.LENGTH_SHORT).show();
             return;
@@ -167,7 +161,7 @@ public class SoundController extends AppCompatActivity implements IACRCloudListe
     private void handleNetworkResponse(List<Artist> celebrities) {
         ArrayList<PersonResult> convertedResults = new ArrayList<>();
         if (celebrities != null && !celebrities.isEmpty()) {
-            for (int i = 0; i < Math.min(celebrities.size(), BaseDataStore.MAX_RESULTS_FOR_EXPERT); i++) {
+            for (int i = 0; i < Math.min(celebrities.size(), DataController.MAX_RESULTS_FOR_EXPERT); i++) {
                 Artist member = celebrities.get(i);
                 convertedResults.add(new PersonResult(member.name, 5 - i));
             }

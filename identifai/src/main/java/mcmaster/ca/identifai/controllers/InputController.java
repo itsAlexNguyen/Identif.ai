@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import mcmaster.ca.appcore.datastore.BaseDataStore;
+import mcmaster.ca.appcore.datastore.DataController;
 import mcmaster.ca.appcore.datastore.PersonResult;
 import mcmaster.ca.appcore.ui.BaseActivity;
 import mcmaster.ca.identifai.R;
@@ -20,7 +20,7 @@ import java.util.List;
 
 public class InputController extends BaseActivity {
     private static final int RESULTS_REQUEST_CODE = 1001;
-    private final BaseDataStore dataStore = new BaseDataStore();
+    private final DataController dataStore = new DataController();
     private Button soundButton;
     private Button imageButton;
     private Button textButton;
@@ -58,11 +58,11 @@ public class InputController extends BaseActivity {
         findViewById(mcmaster.ca.image.R.id.submit_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (dataStore.getFinalResults().isEmpty()) {
+                if (dataStore.processResults().isEmpty()) {
                     Toast.makeText(InputController.this, getString(R.string.no_entry_yet), Toast.LENGTH_SHORT).show();
                 } else {
                     Intent intent = new Intent(InputController.this, OutputController.class);
-                    intent.putParcelableArrayListExtra(OutputController.RESULTS_PARAM, dataStore.getFinalResults());
+                    intent.putParcelableArrayListExtra(OutputController.RESULTS_PARAM, dataStore.processResults());
                     intent.putExtra(IS_RECENT_SEARCH_PARAM, true);
                     startActivity(intent);
                     finish();
@@ -79,7 +79,7 @@ public class InputController extends BaseActivity {
             return;
         }
         if (requestCode == RESULTS_REQUEST_CODE) {
-            List<PersonResult> resultList = data.getParcelableArrayListExtra(BaseDataStore.RESULTS_PARAM);
+            List<PersonResult> resultList = data.getParcelableArrayListExtra(DataController.RESULTS_PARAM);
             dataStore.onReceivedPeopleResults(resultList);
         }
 

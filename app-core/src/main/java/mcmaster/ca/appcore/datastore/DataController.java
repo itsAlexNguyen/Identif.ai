@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public final class BaseDataStore {
+public final class DataController {
     public static final int MAX_RESULTS_FOR_EXPERT = 5;
     public static final String RESULTS_PARAM = "PeopleResultsPARAM";
     private final ArrayList<PersonResult> results = new ArrayList<>();
 
-    public BaseDataStore() {
-
+    public DataController() {
+        // Intentionally left empty.
     }
 
     /**
@@ -18,7 +18,7 @@ public final class BaseDataStore {
      *
      * @return List of people results.
      */
-    public ArrayList<PersonResult> getFinalResults() {
+    public ArrayList<PersonResult> processResults() {
         Collections.sort(results);
         return results;
     }
