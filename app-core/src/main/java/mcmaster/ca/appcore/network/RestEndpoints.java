@@ -17,6 +17,7 @@ public final class RestEndpoints {
     public static final String MOVIE_PATH = "/movie/";
     public static final String CREDITS_PATH = "/credits";
     public static final String SEARCH_MOVIE_PATH = "/search/movie";
+    public static final String SEARCH_PERSON_PATH = "/search/person";
 
     public static String getMoviePath(@NonNull String movieId) {
         return MOVIE_PATH + movieId + CREDITS_PATH;

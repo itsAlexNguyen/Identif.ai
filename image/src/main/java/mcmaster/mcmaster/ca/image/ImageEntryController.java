@@ -111,6 +111,7 @@ public class ImageEntryController extends BaseActivity {
             @Override
             public void onFailure(Call call, IOException exception) {
                 hideLoading();
+                displayPrompt(exception.getMessage());
             }
         });
     }
