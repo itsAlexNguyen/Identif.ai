@@ -16,6 +16,9 @@
     <string name="input_image">Image Entry</string>
     <string name="input_souond">Sound Entry</string>
 
+    <!--Recent Searches-->
+    <string name="recent_searches_header">Recent Searches</string>
+
     <!--Output Controller-->
     <string name="output_title">Results</string>
     <string name="output_main_menu">Main Menu</string>

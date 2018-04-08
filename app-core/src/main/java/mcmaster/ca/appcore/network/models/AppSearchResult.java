@@ -8,8 +8,8 @@ import com.google.gson.annotations.SerializedName;
 import mcmaster.ca.appcore.datastore.PersonResult;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 
 public class AppSearchResult implements Parcelable {
@@ -17,9 +17,9 @@ public class AppSearchResult implements Parcelable {
     public final String date;
 
     @SerializedName("results")
-    public final List<PersonResult> results;
+    public final ArrayList<PersonResult> results;
 
-    public AppSearchResult(List<PersonResult> results) {
+    public AppSearchResult(ArrayList<PersonResult> results) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.CANADA);
         date = sdf.format(new Date());
         this.results = results;

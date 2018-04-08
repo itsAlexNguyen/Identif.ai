@@ -12,6 +12,7 @@ import mcmaster.ca.appcore.ui.adapters.AbstractDataBindAdapter;
 import mcmaster.ca.appcore.ui.binder.PersonDataBinder;
 import mcmaster.ca.identifai.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class OutputController extends AppCompatActivity {
@@ -24,7 +25,7 @@ public class OutputController extends AppCompatActivity {
         if (getSupportActionBar() != null) {
             getSupportActionBar().setTitle(R.string.output_title);
         }
-        List<PersonResult> resultList = getIntent().getParcelableArrayListExtra(RESULTS_PARAM);
+        ArrayList<PersonResult> resultList = getIntent().getParcelableArrayListExtra(RESULTS_PARAM);
         if (resultList != null) {
             RecyclerView recyclerView = findViewById(R.id.recycler_view);
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
