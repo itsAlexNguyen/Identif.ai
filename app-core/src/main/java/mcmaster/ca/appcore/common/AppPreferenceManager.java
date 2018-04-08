@@ -7,7 +7,6 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import static android.content.Context.MODE_PRIVATE;
-import mcmaster.ca.appcore.datastore.PersonResult;
 import mcmaster.ca.appcore.network.models.AppSearchResult;
 
 import java.lang.reflect.Type;
@@ -21,6 +20,7 @@ public class AppPreferenceManager {
 
     // Context to obtain app data.
     private final Context context;
+    private final Gson gson = new Gson();
 
     public AppPreferenceManager(Context context) {
         this.context = context;
@@ -38,7 +38,6 @@ public class AppPreferenceManager {
         if (savedSearches == null) {
             List<AppSearchResult> newList = new ArrayList<>();
             newList.add(newResults);
-            Gson gson = new Gson();
             String json = gson.toJson(newList);
             SharedPreferences.Editor edit = userData.edit();
             edit.putString(SAVED_SEARCHES_KEY, json);
@@ -68,7 +67,6 @@ public class AppPreferenceManager {
         if (savedSearches == null) {
             List<AppSearchResult> newList = new ArrayList<>();
             newList.add(newResults);
-            Gson gson = new Gson();
             String json = gson.toJson(newList);
             SharedPreferences.Editor edit = userData.edit();
             edit.putString(RECENT_SEARCHES_KEY, json);
@@ -82,6 +80,17 @@ public class AppPreferenceManager {
             SharedPreferences.Editor edit = userData.edit();
             edit.putString(RECENT_SEARCHES_KEY, json);
             edit.apply();
+        }
+    }
+
+    public List<AppSearchResult> getRecentSearchResults() {
+        SharedPreferences userData = context.getSharedPreferences(USER_DATA_KEY, MODE_PRIVATE);
+        String recentSearches = userData.getString(RECENT_SEARCHES_KEY, null);
+        if (recentSearches == null) {
+            return new ArrayList<>();
+        } else {
+            Type type = new TypeToken<List<AppSearchResult>>() {}.getType();
+            return gson.fromJson(recentSearches, type);
         }
     }
 

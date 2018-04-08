@@ -31,7 +31,7 @@ public class MainActivity extends BaseActivity {
         recentSearches.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                startActivity(RecentSearchesController.class);
             }
         });
 

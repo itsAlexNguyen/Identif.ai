@@ -5,7 +5,9 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import mcmaster.ca.appcore.common.AppPreferenceManager;
 import mcmaster.ca.appcore.datastore.PersonResult;
+import mcmaster.ca.appcore.network.models.AppSearchResult;
 import mcmaster.ca.appcore.ui.adapters.AbstractDataBindAdapter;
 import mcmaster.ca.appcore.ui.binder.PersonDataBinder;
 import mcmaster.ca.identifai.R;
@@ -28,6 +30,10 @@ public class OutputController extends AppCompatActivity {
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
             recyclerView.setAdapter(new Adapter(resultList));
         }
+
+        AppPreferenceManager preferenceManager = new AppPreferenceManager(this);
+        AppSearchResult newSearch = new AppSearchResult(resultList);
+        preferenceManager.saveRecentSearchResult(newSearch);
     }
 
     public class Adapter extends AbstractDataBindAdapter {
