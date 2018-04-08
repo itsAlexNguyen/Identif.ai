@@ -19,6 +19,9 @@
     <!--Recent Searches-->
     <string name="recent_searches_header">Recent Searches</string>
 
+    <!--Saved Searches-->
+    <string name="saved_searches_header">Saved Searches</string>
+
     <!--Output Controller-->
     <string name="output_title">Results</string>
     <string name="output_main_menu">Main Menu</string>

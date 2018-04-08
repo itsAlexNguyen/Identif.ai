@@ -94,4 +94,14 @@ public class AppPreferenceManager {
         }
     }
 
+    public List<AppSearchResult> getSavedSearchResults() {
+        SharedPreferences userData = context.getSharedPreferences(USER_DATA_KEY, MODE_PRIVATE);
+        String recentSearches = userData.getString(SAVED_SEARCHES_KEY, null);
+        if (recentSearches == null) {
+            return new ArrayList<>();
+        } else {
+            Type type = new TypeToken<List<AppSearchResult>>() {}.getType();
+            return gson.fromJson(recentSearches, type);
+        }
+    }
 }
