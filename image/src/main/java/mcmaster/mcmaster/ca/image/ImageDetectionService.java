@@ -53,27 +53,35 @@ public final class ImageDetectionService {
      * @param callback
      *     The Success and Failure Callback to handle the {@link RetrieveCelebritiesRs}.
      */
-    public void retrieveImageResults(@NonNull Bitmap image,
-        @NonNull HttpCallback<RetrieveCelebritiesRs> callback) {
-        // Converts the Bitmap to a byte stream.
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        image.compress(Bitmap.CompressFormat.PNG, 0, stream);
-        final byte[] bitmapdata = stream.toByteArray();
+    public void retrieveImageResults(final @NonNull Bitmap image,
+        final @NonNull HttpCallback<RetrieveCelebritiesRs> callback) {
 
-        // Creates the MultiPartForm Data used to make request.
-        RequestBody requestBody = createDefaultBodyBuilder()
-            .setType(MultipartBody.FORM)
-            .addFormDataPart(MEDIA_KEY, "celebrity.png", RequestBody.create(MEDIA_TYPE_PNG, bitmapdata))
-            .build();
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                // Converts the Bitmap to a byte stream.
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                image.compress(Bitmap.CompressFormat.PNG, 0, stream);
+                final byte[] bitmapdata = stream.toByteArray();
 
-        // Builds the Request to send to the network client.
-        Request.Builder requestBuilder = client.createRequestBuilder(RestEndpoints.SIGHT_ENGINE_BASE_URL)
-            .post(requestBody);
+                // Creates the MultiPartForm Data used to make request.
+                RequestBody requestBody = createDefaultBodyBuilder()
+                    .setType(MultipartBody.FORM)
+                    .addFormDataPart(MEDIA_KEY, "celebrity.png", RequestBody.create(MEDIA_TYPE_PNG, bitmapdata))
+                    .build();
 
-        // Sends the request.
-        Type type = new TypeToken<RetrieveCelebritiesRs>() {}.getType();
-        client.enqueueRequest(requestBuilder.build(),
-            new ServiceHttpCallback<>(type, callback));
+                // Builds the Request to send to the network client.
+                Request.Builder requestBuilder = client.createRequestBuilder(RestEndpoints.SIGHT_ENGINE_BASE_URL)
+                    .post(requestBody);
+
+                // Sends the request.
+                Type type = new TypeToken<RetrieveCelebritiesRs>() {}.getType();
+                client.enqueueRequest(requestBuilder.build(),
+                    new ServiceHttpCallback<>(type, callback));
+            }
+        });
+
+        thread.start();
     }
 
     /**

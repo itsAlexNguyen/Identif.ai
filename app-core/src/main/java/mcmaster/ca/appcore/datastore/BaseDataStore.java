@@ -7,7 +7,7 @@ import java.util.List;
 public final class BaseDataStore {
     public static final int MAX_RESULTS_FOR_EXPERT = 5;
     public static final String RESULTS_PARAM = "PeopleResultsPARAM";
-    private final List<PersonResult> results = new ArrayList<>();
+    private final ArrayList<PersonResult> results = new ArrayList<>();
 
     public BaseDataStore() {
 
@@ -18,7 +18,7 @@ public final class BaseDataStore {
      *
      * @return List of people results.
      */
-    public List<PersonResult> getFinalResults() {
+    public ArrayList<PersonResult> getFinalResults() {
         Collections.sort(results);
         return results;
     }

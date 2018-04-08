@@ -13,6 +13,7 @@ public final class RestEndpoints {
 
     // Text Detection Endpoints
     public static final String THE_MOVIE_DB_BASE_URL = "https://api.themoviedb.org/3";
+    public static final String THE_MOVIE_FB_BASE_IMAGE_URL = "https://image.tmdb.org/t/p/w200";
     public static final String MOVIE_PATH = "/movie/";
     public static final String CREDITS_PATH = "/credits";
     public static final String SEARCH_MOVIE_PATH = "/search/movie";

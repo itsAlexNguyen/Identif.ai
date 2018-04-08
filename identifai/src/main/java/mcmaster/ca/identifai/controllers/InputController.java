@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import mcmaster.ca.appcore.datastore.BaseDataStore;
 import mcmaster.ca.appcore.datastore.PersonResult;
@@ -19,9 +20,9 @@ import java.util.List;
 public class InputController extends BaseActivity {
     private static final int RESULTS_REQUEST_CODE = 1001;
     private final BaseDataStore dataStore = new BaseDataStore();
-    Button soundButton;
-    Button imageButton;
-    Button textButton;
+    private Button soundButton;
+    private Button imageButton;
+    private Button textButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +51,20 @@ public class InputController extends BaseActivity {
             @Override
             public void onClick(View view) {
                 startActivityForResult(TextEntryController.class, RESULTS_REQUEST_CODE);
+            }
+        });
+
+        findViewById(mcmaster.ca.image.R.id.submit_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (dataStore.getFinalResults().isEmpty()) {
+                    Toast.makeText(InputController.this, getString(R.string.no_entry_yet), Toast.LENGTH_SHORT).show();
+                } else {
+                    Intent intent = new Intent(InputController.this, OutputController.class);
+                    intent.putParcelableArrayListExtra(OutputController.RESULTS_PARAM, dataStore.getFinalResults());
+                    startActivity(intent);
+                    finish();
+                }
             }
         });
     }

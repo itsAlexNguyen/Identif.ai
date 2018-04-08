@@ -3,6 +3,7 @@ package mcmaster.ca.appcore.datastore;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -16,32 +17,21 @@ public class PersonResult implements Parcelable, Comparable<PersonResult> {
     @SerializedName("score")
     public int score;
 
-    public void increaseScore(int amount) {
-        score = score + amount;
-    }
-
-    public PersonResult(String name, int score) {
-        this.name = name;
-        this.score = score;
-    }
+    @Nullable
+    @SerializedName("profileUrl")
+    public final String profileUrl;
 
     protected PersonResult(Parcel in) {
         name = in.readString();
         score = in.readInt();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj instanceof PersonResult) {
-            return name.equals(((PersonResult)obj).name);
-        }
-        return super.equals(obj);
+        profileUrl = in.readString();
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(name);
         dest.writeInt(score);
+        dest.writeString(profileUrl);
     }
 
     @Override
@@ -61,8 +51,31 @@ public class PersonResult implements Parcelable, Comparable<PersonResult> {
         }
     };
 
+    public void increaseScore(int amount) {
+        score = score + amount;
+    }
+
+
+    public PersonResult(String name, int score, @Nullable String profileUrl) {
+        this.name = name.trim();
+        this.score = score;
+        this.profileUrl = profileUrl;
+    }
+
+    public PersonResult(String name, int score) {
+        this(name, score, null);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof PersonResult) {
+            return name.equalsIgnoreCase(((PersonResult)obj).name);
+        }
+        return super.equals(obj);
+    }
+
     @Override
     public int compareTo(@NonNull PersonResult personResult) {
-        return Integer.compare(score, personResult.score);
+        return Integer.compare(personResult.score, score);
     }
 }

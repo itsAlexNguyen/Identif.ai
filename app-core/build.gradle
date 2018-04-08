@@ -28,12 +28,14 @@ android {
 dependencies {
 
     // Third Party Dependencies
+    implementation 'com.squareup.picasso:picasso:2.71828'
 
     // Networking
     api 'com.squareup.okhttp3:okhttp:3.10.0'
     api 'com.google.code.gson:gson:2.8.2'
 
     api fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.android.support:recyclerview-v7:26.1.0'
 
     api 'com.android.support:appcompat-v7:26.1.0'
     testImplementation 'junit:junit:4.12'

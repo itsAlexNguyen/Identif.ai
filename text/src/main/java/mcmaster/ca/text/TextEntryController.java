@@ -11,6 +11,7 @@ import mcmaster.ca.appcore.datastore.BaseDataStore;
 import static mcmaster.ca.appcore.datastore.BaseDataStore.RESULTS_PARAM;
 import mcmaster.ca.appcore.datastore.PersonResult;
 import mcmaster.ca.appcore.network.HttpCallback;
+import mcmaster.ca.appcore.network.RestEndpoints;
 import mcmaster.ca.appcore.ui.BaseActivity;
 import mcmaster.ca.text.models.CastMember;
 import okhttp3.Call;
@@ -76,7 +77,8 @@ public class TextEntryController extends BaseActivity {
         if (response != null && !response.isEmpty()) {
             for (int i = 0; i < Math.min(response.size(), BaseDataStore.MAX_RESULTS_FOR_EXPERT); i++) {
                 CastMember member = response.get(i);
-                convertedResults.add(new PersonResult(member.name, 5 - i));
+                convertedResults.add(new PersonResult(member.name, 5 - i,
+                    RestEndpoints.THE_MOVIE_FB_BASE_IMAGE_URL + member.profilePath));
             }
         }
         Intent data = new Intent();
