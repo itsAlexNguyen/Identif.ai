@@ -5,7 +5,7 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
-import mcmaster.ca.appcore.datastore.PersonResult;
+import mcmaster.ca.appcore.datastore.ActorModel;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -17,9 +17,9 @@ public class AppSearchResult implements Parcelable {
     public final String date;
 
     @SerializedName("results")
-    public final ArrayList<PersonResult> results;
+    public final ArrayList<ActorModel> results;
 
-    public AppSearchResult(ArrayList<PersonResult> results) {
+    public AppSearchResult(ArrayList<ActorModel> results) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.CANADA);
         date = sdf.format(new Date());
         this.results = results;
@@ -27,7 +27,7 @@ public class AppSearchResult implements Parcelable {
 
     protected AppSearchResult(Parcel in) {
         date = in.readString();
-        results = in.createTypedArrayList(PersonResult.CREATOR);
+        results = in.createTypedArrayList(ActorModel.CREATOR);
     }
 
     @Override
@@ -57,11 +57,11 @@ public class AppSearchResult implements Parcelable {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("Using Identif.ai I was able to find the following results: \n");
-        for (PersonResult personResult : results) {
+        for (ActorModel actorModel : results) {
             sb.append("Name: ")
-                .append(personResult.name)
+                .append(actorModel.name)
                 .append(" Score: ")
-                .append(personResult.score)
+                .append(actorModel.score)
                 .append("\n");
         }
         return sb.toString();

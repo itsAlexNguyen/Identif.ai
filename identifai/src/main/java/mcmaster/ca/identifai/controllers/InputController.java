@@ -8,12 +8,12 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import mcmaster.ca.appcore.datastore.DataController;
-import mcmaster.ca.appcore.datastore.PersonResult;
+import mcmaster.ca.appcore.datastore.ActorModel;
 import mcmaster.ca.appcore.ui.BaseActivity;
 import mcmaster.ca.identifai.R;
 import static mcmaster.ca.identifai.controllers.OutputController.IS_RECENT_SEARCH_PARAM;
-import mcmaster.ca.sound.SoundController;
-import mcmaster.ca.text.TextEntryController;
+import mcmaster.ca.sound.AudioController;
+import mcmaster.ca.text.DescriptionController;
 import mcmaster.mcmaster.ca.image.ImageEntryController;
 
 import java.util.List;
@@ -38,7 +38,7 @@ public class InputController extends BaseActivity {
         soundButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivityForResult(SoundController.class, RESULTS_REQUEST_CODE);
+                startActivityForResult(AudioController.class, RESULTS_REQUEST_CODE);
             }
         });
 
@@ -51,7 +51,7 @@ public class InputController extends BaseActivity {
         textButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivityForResult(TextEntryController.class, RESULTS_REQUEST_CODE);
+                startActivityForResult(DescriptionController.class, RESULTS_REQUEST_CODE);
             }
         });
 
@@ -79,11 +79,11 @@ public class InputController extends BaseActivity {
             return;
         }
         if (requestCode == RESULTS_REQUEST_CODE) {
-            List<PersonResult> resultList = data.getParcelableArrayListExtra(DataController.RESULTS_PARAM);
+            List<ActorModel> resultList = data.getParcelableArrayListExtra(DataController.RESULTS_PARAM);
             dataStore.onReceivedPeopleResults(resultList);
         }
 
-        if (resultCode == TextEntryController.RESULT_CODE) {
+        if (resultCode == DescriptionController.RESULT_CODE) {
             textButton.setBackgroundColor(getResources().getColor(R.color.colorAccent));
             textButton.setTextColor(Color.WHITE);
             textButton.setEnabled(false);
@@ -95,7 +95,7 @@ public class InputController extends BaseActivity {
             imageButton.setEnabled(false);
         }
 
-        if (resultCode == SoundController.RESULT_CODE) {
+        if (resultCode == AudioController.RESULT_CODE) {
             soundButton.setBackgroundColor(getResources().getColor(R.color.colorAccent));
             soundButton.setTextColor(Color.WHITE);
             soundButton.setEnabled(false);

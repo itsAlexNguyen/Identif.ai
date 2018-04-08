@@ -7,16 +7,16 @@ import com.squareup.picasso.Picasso;
 
 import mcmaster.ca.appcore.R;
 import mcmaster.ca.appcore.common.InputListener;
-import mcmaster.ca.appcore.datastore.PersonResult;
+import mcmaster.ca.appcore.datastore.ActorModel;
 import mcmaster.ca.appcore.ui.viewholder.PersonViewHolder;
 
 public class PersonDataBinder extends AbstractDataBinder<PersonViewHolder> {
-    private final PersonResult personResult;
-    private final InputListener<PersonResult> listener;
+    private final ActorModel actorModel;
+    private final InputListener<ActorModel> listener;
 
-    public PersonDataBinder(PersonResult personResult, InputListener<PersonResult> listener) {
+    public PersonDataBinder(ActorModel actorModel, InputListener<ActorModel> listener) {
         super();
-        this.personResult = personResult;
+        this.actorModel = actorModel;
         this.listener = listener;
     }
 
@@ -31,13 +31,13 @@ public class PersonDataBinder extends AbstractDataBinder<PersonViewHolder> {
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                listener.onInputReceived(personResult);
+                listener.onInputReceived(actorModel);
             }
         });
-        holder.nameText.setText(personResult.name);
-        holder.scoreText.setText(String.valueOf(personResult.score));
-        if (personResult.profileUrl != null) {
-            Picasso.get().load(personResult.profileUrl)
+        holder.nameText.setText(actorModel.name);
+        holder.scoreText.setText(String.valueOf(actorModel.score));
+        if (actorModel.profileUrl != null) {
+            Picasso.get().load(actorModel.profileUrl)
                 .resize(200, 200)
                 .placeholder(R.drawable.profile_placeholder)
                 .into(holder.profileIcon);

@@ -4,7 +4,7 @@
 
     <application>
         <activity
-            android:name=".TextEntryController"
+            android:name=".DescriptionController"
             android:screenOrientation="portrait" />
     </application>
 

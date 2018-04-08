@@ -7,7 +7,7 @@ import android.widget.Button;
 import mcmaster.ca.appcore.ui.BaseActivity;
 import mcmaster.ca.identifai.R;
 
-public class MainActivity extends BaseActivity {
+public class MainController extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

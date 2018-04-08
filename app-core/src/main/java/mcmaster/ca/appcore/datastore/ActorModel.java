@@ -18,7 +18,7 @@ import java.io.IOException;
 /**
  * This class represents a model of a person result
  */
-public class PersonResult implements Parcelable, Comparable<PersonResult> {
+public class ActorModel implements Parcelable, Comparable<ActorModel> {
     @SerializedName("name")
     public final String name;
 
@@ -29,7 +29,7 @@ public class PersonResult implements Parcelable, Comparable<PersonResult> {
     @SerializedName("profileUrl")
     public String profileUrl;
 
-    protected PersonResult(Parcel in) {
+    protected ActorModel(Parcel in) {
         name = in.readString();
         score = in.readInt();
         profileUrl = in.readString();
@@ -66,15 +66,15 @@ public class PersonResult implements Parcelable, Comparable<PersonResult> {
         return 0;
     }
 
-    public static final Creator<PersonResult> CREATOR = new Creator<PersonResult>() {
+    public static final Creator<ActorModel> CREATOR = new Creator<ActorModel>() {
         @Override
-        public PersonResult createFromParcel(Parcel in) {
-            return new PersonResult(in);
+        public ActorModel createFromParcel(Parcel in) {
+            return new ActorModel(in);
         }
 
         @Override
-        public PersonResult[] newArray(int size) {
-            return new PersonResult[size];
+        public ActorModel[] newArray(int size) {
+            return new ActorModel[size];
         }
     };
 
@@ -83,27 +83,27 @@ public class PersonResult implements Parcelable, Comparable<PersonResult> {
     }
 
 
-    public PersonResult(String name, int score, @Nullable String profileUrl) {
+    public ActorModel(String name, int score, @Nullable String profileUrl) {
         this.name = name.trim();
         this.score = score;
         this.profileUrl = profileUrl;
         attemptRetrieveDetails();
     }
 
-    public PersonResult(String name, int score) {
+    public ActorModel(String name, int score) {
         this(name, score, null);
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof PersonResult) {
-            return name.equalsIgnoreCase(((PersonResult)obj).name);
+        if (obj instanceof ActorModel) {
+            return name.equalsIgnoreCase(((ActorModel)obj).name);
         }
         return super.equals(obj);
     }
 
     @Override
-    public int compareTo(@NonNull PersonResult personResult) {
-        return Integer.compare(personResult.score, score);
+    public int compareTo(@NonNull ActorModel actorModel) {
+        return Integer.compare(actorModel.score, score);
     }
 }

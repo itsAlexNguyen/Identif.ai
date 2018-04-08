@@ -9,7 +9,7 @@ import android.view.View;
 
 import mcmaster.ca.appcore.common.AppPreferenceManager;
 import mcmaster.ca.appcore.common.InputListener;
-import mcmaster.ca.appcore.datastore.PersonResult;
+import mcmaster.ca.appcore.datastore.ActorModel;
 import mcmaster.ca.appcore.network.models.AppSearchResult;
 import mcmaster.ca.appcore.ui.adapters.AbstractDataBindAdapter;
 import mcmaster.ca.appcore.ui.binder.PersonDataBinder;
@@ -29,7 +29,7 @@ public class OutputController extends AppCompatActivity {
         if (getSupportActionBar() != null) {
             getSupportActionBar().setTitle(R.string.output_title);
         }
-        final ArrayList<PersonResult> resultList = getIntent().getParcelableArrayListExtra(RESULTS_PARAM);
+        final ArrayList<ActorModel> resultList = getIntent().getParcelableArrayListExtra(RESULTS_PARAM);
         if (resultList != null) {
             RecyclerView recyclerView = findViewById(R.id.recycler_view);
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -55,19 +55,19 @@ public class OutputController extends AppCompatActivity {
         });
     }
 
-    private void saveRecentSearch(ArrayList<PersonResult> resultList) {
+    private void saveRecentSearch(ArrayList<ActorModel> resultList) {
         AppPreferenceManager preferenceManager = new AppPreferenceManager(this);
         AppSearchResult newSearch = new AppSearchResult(resultList);
         preferenceManager.saveRecentSearchResult(newSearch);
     }
 
-    private void saveResults(ArrayList<PersonResult> resultList) {
+    private void saveResults(ArrayList<ActorModel> resultList) {
         AppPreferenceManager preferenceManager = new AppPreferenceManager(this);
         AppSearchResult newSearch = new AppSearchResult(resultList);
         preferenceManager.saveSearchResult(newSearch);
     }
 
-    private void goToSharing(ArrayList<PersonResult> resultList) {
+    private void goToSharing(ArrayList<ActorModel> resultList) {
         Intent sendIntent = new Intent();
         sendIntent.setAction(Intent.ACTION_SEND);
         AppSearchResult newSearch = new AppSearchResult(resultList);
@@ -76,10 +76,10 @@ public class OutputController extends AppCompatActivity {
         startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.send_to)));
     }
 
-    private InputListener<PersonResult> createSelectionListener() {
-        return new InputListener<PersonResult>() {
+    private InputListener<ActorModel> createSelectionListener() {
+        return new InputListener<ActorModel>() {
             @Override
-            public void onInputReceived(PersonResult value) {
+            public void onInputReceived(ActorModel value) {
                 Intent intent = new Intent(OutputController.this, PersonDetailController.class);
                 intent.putExtra(PersonDetailController.PERSON_PARAM, value);
                 startActivity(intent);
@@ -88,9 +88,9 @@ public class OutputController extends AppCompatActivity {
     }
 
     public class Adapter extends AbstractDataBindAdapter {
-        private final List<PersonResult> resultList;
+        private final List<ActorModel> resultList;
 
-        public Adapter(List<PersonResult> resultList) {
+        public Adapter(List<ActorModel> resultList) {
             super();
             this.resultList = resultList;
             buildRows();
@@ -98,7 +98,7 @@ public class OutputController extends AppCompatActivity {
 
         private void buildRows() {
             listItems.clear();
-            for (PersonResult person : resultList) {
+            for (ActorModel person : resultList) {
                 listItems.add(new PersonDataBinder(person, createSelectionListener()));
             }
         }

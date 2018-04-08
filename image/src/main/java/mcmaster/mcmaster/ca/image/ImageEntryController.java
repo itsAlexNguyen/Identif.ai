@@ -16,7 +16,7 @@ import com.esafirm.imagepicker.model.Image;
 
 import mcmaster.ca.appcore.datastore.DataController;
 import static mcmaster.ca.appcore.datastore.DataController.RESULTS_PARAM;
-import mcmaster.ca.appcore.datastore.PersonResult;
+import mcmaster.ca.appcore.datastore.ActorModel;
 import mcmaster.ca.appcore.network.HttpCallback;
 import mcmaster.ca.appcore.ui.BaseActivity;
 import mcmaster.ca.image.R;
@@ -120,11 +120,11 @@ public class ImageEntryController extends BaseActivity {
     }
 
     private void handleNetworkResponse(List<SightEngineCelebrity> celebrities) {
-        ArrayList<PersonResult> convertedResults = new ArrayList<>();
+        ArrayList<ActorModel> convertedResults = new ArrayList<>();
         if (celebrities != null && !celebrities.isEmpty()) {
             for (int i = 0; i < Math.min(celebrities.size(), DataController.MAX_RESULTS_FOR_EXPERT); i++) {
                 SightEngineCelebrity member = celebrities.get(i);
-                convertedResults.add(new PersonResult(member.name, 5 - i));
+                convertedResults.add(new ActorModel(member.name, 5 - i));
             }
         }
         Intent data = new Intent();

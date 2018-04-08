@@ -13,7 +13,7 @@ import android.widget.Toast;
 
 import mcmaster.ca.appcore.datastore.DataController;
 import static mcmaster.ca.appcore.datastore.DataController.RESULTS_PARAM;
-import mcmaster.ca.appcore.datastore.PersonResult;
+import mcmaster.ca.appcore.datastore.ActorModel;
 import mcmaster.ca.appcore.network.HttpCallback;
 import mcmaster.ca.appcore.network.RestEndpoints;
 import mcmaster.ca.appcore.ui.BaseActivity;
@@ -24,7 +24,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TextEntryController extends BaseActivity {
+public class DescriptionController extends BaseActivity {
     public static final int RESULT_CODE = 2001;
     private final TextDetectionService service = new TextDetectionService();
 
@@ -45,7 +45,7 @@ public class TextEntryController extends BaseActivity {
                 if (textEntry.getText() != null && !textEntry.getText().toString().isEmpty()) {
                     submitTextToApi(textEntry.getText().toString());
                 } else {
-                    Toast.makeText(TextEntryController.this, "Please enter a movie title", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(DescriptionController.this, "Please enter a movie title", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -57,7 +57,7 @@ public class TextEntryController extends BaseActivity {
                     submitTextToApi(textEntry.getText().toString());
                     return true;
                 } else {
-                    Toast.makeText(TextEntryController.this, "Please enter a movie title", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(DescriptionController.this, "Please enter a movie title", Toast.LENGTH_SHORT).show();
                     return false;
                 }
             }
@@ -98,11 +98,11 @@ public class TextEntryController extends BaseActivity {
     }
 
     private void handleNetworkResponse(List<CastMember> response) {
-        ArrayList<PersonResult> convertedResults = new ArrayList<>();
+        ArrayList<ActorModel> convertedResults = new ArrayList<>();
         if (response != null && !response.isEmpty()) {
             for (int i = 0; i < Math.min(response.size(), DataController.MAX_RESULTS_FOR_EXPERT); i++) {
                 CastMember member = response.get(i);
-                convertedResults.add(new PersonResult(member.name, 5 - i,
+                convertedResults.add(new ActorModel(member.name, 5 - i,
                     RestEndpoints.THE_MOVIE_FB_BASE_IMAGE_URL + member.profilePath));
             }
         }

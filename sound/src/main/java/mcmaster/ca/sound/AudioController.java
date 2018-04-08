@@ -24,12 +24,12 @@ import android.widget.Toast;
 
 import mcmaster.ca.appcore.datastore.DataController;
 import static mcmaster.ca.appcore.datastore.DataController.RESULTS_PARAM;
-import mcmaster.ca.appcore.datastore.PersonResult;
+import mcmaster.ca.appcore.datastore.ActorModel;
 import mcmaster.ca.sound.models.Artist;
 import mcmaster.ca.sound.models.Music;
 import mcmaster.ca.sound.models.SoundResult;
 
-public class SoundController extends AppCompatActivity implements IACRCloudListener {
+public class AudioController extends AppCompatActivity implements IACRCloudListener {
     public static final int RESULT_CODE = 3003;
     private ACRCloudClient mClient;
     private ACRCloudConfig mConfig;
@@ -159,11 +159,11 @@ public class SoundController extends AppCompatActivity implements IACRCloudListe
     }
 
     private void handleNetworkResponse(List<Artist> celebrities) {
-        ArrayList<PersonResult> convertedResults = new ArrayList<>();
+        ArrayList<ActorModel> convertedResults = new ArrayList<>();
         if (celebrities != null && !celebrities.isEmpty()) {
             for (int i = 0; i < Math.min(celebrities.size(), DataController.MAX_RESULTS_FOR_EXPERT); i++) {
                 Artist member = celebrities.get(i);
-                convertedResults.add(new PersonResult(member.name, 5 - i));
+                convertedResults.add(new ActorModel(member.name, 5 - i));
             }
         }
         Intent data = new Intent();

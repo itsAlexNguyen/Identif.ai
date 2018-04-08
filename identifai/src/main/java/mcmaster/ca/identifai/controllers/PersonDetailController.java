@@ -6,7 +6,7 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import mcmaster.ca.appcore.datastore.PersonResult;
+import mcmaster.ca.appcore.datastore.ActorModel;
 import mcmaster.ca.appcore.network.HttpCallback;
 import mcmaster.ca.appcore.network.PersonDetailsService;
 import mcmaster.ca.appcore.network.models.PersonSearchRs;
@@ -18,7 +18,7 @@ import java.io.IOException;
 
 public class PersonDetailController extends BaseActivity implements HttpCallback<PersonSearchRs> {
     public static final String PERSON_PARAM = "PersonParam";
-    private PersonResult person;
+    private ActorModel person;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

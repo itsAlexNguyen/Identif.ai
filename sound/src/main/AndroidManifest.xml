@@ -11,7 +11,7 @@
 
     <application>
         <activity
-            android:name=".SoundController"
+            android:name=".AudioController"
             android:screenOrientation="portrait" />
     </application>
 

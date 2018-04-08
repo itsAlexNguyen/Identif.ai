@@ -7,7 +7,7 @@ import java.util.List;
 public final class DataController {
     public static final int MAX_RESULTS_FOR_EXPERT = 5;
     public static final String RESULTS_PARAM = "PeopleResultsPARAM";
-    private final ArrayList<PersonResult> results = new ArrayList<>();
+    private final ArrayList<ActorModel> results = new ArrayList<>();
 
     public DataController() {
         // Intentionally left empty.
@@ -18,7 +18,7 @@ public final class DataController {
      *
      * @return List of people results.
      */
-    public ArrayList<PersonResult> processResults() {
+    public ArrayList<ActorModel> processResults() {
         Collections.sort(results);
         return results;
     }
@@ -26,11 +26,11 @@ public final class DataController {
     /**
      * Called when a new set of people results are received.
      *
-     * @param personResults
+     * @param actorModels
      *     The new list of people results.
      */
-    public void onReceivedPeopleResults(List<PersonResult> personResults) {
-        for (PersonResult person : personResults) {
+    public void onReceivedPeopleResults(List<ActorModel> actorModels) {
+        for (ActorModel person : actorModels) {
             // If the person is already in the list, increase the score.
             if (results.contains(person)) {
                 results.get(results.indexOf(person)).increaseScore(person.score);
