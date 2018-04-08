@@ -26,8 +26,9 @@
 
     <!--Output Controller-->
     <string name="output_title">Results</string>
-    <string name="output_main_menu">Main Menu</string>
+    <string name="output_share">Share</string>
     <string name="output_save">Save</string>
+    <string name="send_to">Share to..</string>
 
     <!--Errors-->
     <string name="no_entry_yet">Please select at least one form of entry.</string>

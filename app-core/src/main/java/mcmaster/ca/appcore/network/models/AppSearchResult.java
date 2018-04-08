@@ -52,4 +52,18 @@ public class AppSearchResult implements Parcelable {
             return new AppSearchResult[size];
         }
     };
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Using Identif.ai I was able to find the following results: \n");
+        for (PersonResult personResult : results) {
+            sb.append("Name: ")
+                .append(personResult.name)
+                .append(" Score: ")
+                .append(personResult.score)
+                .append("\n");
+        }
+        return sb.toString();
+    }
 }

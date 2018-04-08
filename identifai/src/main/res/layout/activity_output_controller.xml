@@ -16,11 +16,11 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/main_menu_button"
+            android:id="@+id/share_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/output_main_menu" />
+            android:text="@string/output_share" />
 
         <Button
             android:id="@+id/save_button"

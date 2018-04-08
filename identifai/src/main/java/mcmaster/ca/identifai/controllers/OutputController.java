@@ -42,10 +42,15 @@ public class OutputController extends AppCompatActivity {
             preferenceManager.saveRecentSearchResult(newSearch);
         }
 
-        findViewById(R.id.main_menu_button).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.share_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finish();
+                Intent sendIntent = new Intent();
+                sendIntent.setAction(Intent.ACTION_SEND);
+                AppSearchResult newSearch = new AppSearchResult(resultList);
+                sendIntent.putExtra(Intent.EXTRA_TEXT, newSearch.toString());
+                sendIntent.setType("text/plain");
+                startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.send_to)));
             }
         });
 
