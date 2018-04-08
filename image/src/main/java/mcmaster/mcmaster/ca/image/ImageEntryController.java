@@ -36,6 +36,7 @@ public class ImageEntryController extends BaseActivity {
     public Bitmap selectedImage;
     public static final int RESULT_CODE = 2002;
     private final ImageDetectionService service = new ImageDetectionService();
+    private Button submitButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,13 +50,16 @@ public class ImageEntryController extends BaseActivity {
                 openSelectImage();
             }
         });
-        findViewById(R.id.submit_button).setOnClickListener(new View.OnClickListener() {
+        submitButton = findViewById(R.id.submit_button);
+        submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (selectedImage != null) {
                     submitImage(selectedImage);
                 } else {
-                    Toast.makeText(ImageEntryController.this, "Please select an Image", Toast.LENGTH_SHORT).show();
+                    Toast
+                        .makeText(ImageEntryController.this, getString(R.string.select_image_error), Toast.LENGTH_SHORT)
+                        .show();
                 }
             }
         });
@@ -78,6 +82,7 @@ public class ImageEntryController extends BaseActivity {
                 ImageView imageView = findViewById(R.id.image_view);
                 imageView.setVisibility(View.VISIBLE);
                 imageView.setImageBitmap(myBitmap);
+                submitButton.setBackgroundColor(getResources().getColor(R.color.success_green));
             }
 
         }

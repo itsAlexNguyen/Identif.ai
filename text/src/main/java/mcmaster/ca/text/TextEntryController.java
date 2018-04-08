@@ -2,10 +2,14 @@ package mcmaster.ca.text;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import mcmaster.ca.appcore.datastore.BaseDataStore;
 import static mcmaster.ca.appcore.datastore.BaseDataStore.RESULTS_PARAM;
@@ -34,11 +38,14 @@ public class TextEntryController extends BaseActivity {
         }
 
         final EditText textEntry = findViewById(R.id.text_entry_edittext);
-        findViewById(R.id.submit_button).setOnClickListener(new View.OnClickListener() {
+        final Button submitButton = findViewById(R.id.submit_button);
+        submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (textEntry.getText() != null && !textEntry.getText().toString().isEmpty()) {
                     submitQuery(textEntry.getText().toString());
+                } else {
+                    Toast.makeText(TextEntryController.this, "Please enter a movie title", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -50,8 +57,26 @@ public class TextEntryController extends BaseActivity {
                     submitQuery(textEntry.getText().toString());
                     return true;
                 } else {
+                    Toast.makeText(TextEntryController.this, "Please enter a movie title", Toast.LENGTH_SHORT).show();
                     return false;
                 }
+            }
+        });
+
+        textEntry.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                submitButton.setBackgroundColor(getResources().getColor(
+                    textEntry.getText() != null && !textEntry.getText().toString().isEmpty() ? R.color.success_green
+                        : R.color.disabled_grey));
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
             }
         });
     }

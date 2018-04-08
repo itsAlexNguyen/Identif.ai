@@ -26,7 +26,8 @@
             android:id="@+id/text_entry_edittext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Enter movie, keyword, etc"
+            android:hint="@string/enter_text_placeholder"
+            android:imeOptions="actionDone"
             android:maxLines="1"
             android:padding="@dimen/app_default_padding" />
     </LinearLayout>
@@ -37,6 +38,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_margin="@dimen/app_default_padding"
-        android:text="Submit"
+        android:text="@string/submit_action"
         android:textColor="@android:color/white" />
 </RelativeLayout>
