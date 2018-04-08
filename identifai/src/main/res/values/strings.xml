@@ -15,7 +15,9 @@
     <string name="input_text">Text Entry</string>
     <string name="input_image">Image Entry</string>
     <string name="input_souond">Sound Entry</string>
-
+    <string name="input_description">Identif.ai allows you to identify an individual using mutliple forms of
+        input. Search for the person you are looking for via Text, Image and/or sound and let Identif.ai do the
+    rest. </string>
     <!--Recent Searches-->
     <string name="recent_searches_header">Recent Searches</string>
 

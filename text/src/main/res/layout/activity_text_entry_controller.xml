@@ -20,7 +20,7 @@
             android:layout_gravity="top"
             android:adjustViewBounds="true"
             android:importantForAccessibility="no"
-            android:src="@drawable/main_screen_header" />
+            android:src="@drawable/text_upload_icon" />
 
         <EditText
             android:id="@+id/text_entry_edittext"
