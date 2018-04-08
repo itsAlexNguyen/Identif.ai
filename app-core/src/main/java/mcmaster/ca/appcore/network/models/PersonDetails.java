@@ -5,6 +5,8 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 public final class PersonDetails implements Parcelable {
     @SerializedName("popularity")
     public final double popularity;
@@ -15,6 +17,9 @@ public final class PersonDetails implements Parcelable {
     @SerializedName("profile_path")
     public final String profilePath;
 
+    @SerializedName("known_for")
+    public final List<KnownFor> knownFors;
+
     @SerializedName("adult")
     public final boolean adult;
 
@@ -22,6 +27,7 @@ public final class PersonDetails implements Parcelable {
         popularity = in.readDouble();
         id = in.readInt();
         profilePath = in.readString();
+        knownFors = in.createTypedArrayList(KnownFor.CREATOR);
         adult = in.readByte() != 0;
     }
 
@@ -30,6 +36,7 @@ public final class PersonDetails implements Parcelable {
         dest.writeDouble(popularity);
         dest.writeInt(id);
         dest.writeString(profilePath);
+        dest.writeTypedList(knownFors);
         dest.writeByte((byte)(adult ? 1 : 0));
     }
 

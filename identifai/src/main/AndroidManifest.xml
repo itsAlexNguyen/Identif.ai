@@ -26,7 +26,8 @@
         <activity
             android:name=".controllers.OutputController"
             android:screenOrientation="portrait" />
-        <activity android:name=".controllers.RecentSearchesController"></activity>
+        <activity android:name=".controllers.RecentSearchesController" />
+        <activity android:name=".controllers.PersonDetailController"></activity>
     </application>
 
 </manifest>

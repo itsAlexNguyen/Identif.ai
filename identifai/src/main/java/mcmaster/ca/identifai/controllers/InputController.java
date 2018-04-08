@@ -11,6 +11,7 @@ import mcmaster.ca.appcore.datastore.BaseDataStore;
 import mcmaster.ca.appcore.datastore.PersonResult;
 import mcmaster.ca.appcore.ui.BaseActivity;
 import mcmaster.ca.identifai.R;
+import static mcmaster.ca.identifai.controllers.OutputController.IS_RECENT_SEARCH_PARAM;
 import mcmaster.ca.sound.SoundController;
 import mcmaster.ca.text.TextEntryController;
 import mcmaster.mcmaster.ca.image.ImageEntryController;
@@ -62,6 +63,7 @@ public class InputController extends BaseActivity {
                 } else {
                     Intent intent = new Intent(InputController.this, OutputController.class);
                     intent.putParcelableArrayListExtra(OutputController.RESULTS_PARAM, dataStore.getFinalResults());
+                    intent.putExtra(IS_RECENT_SEARCH_PARAM, true);
                     startActivity(intent);
                     finish();
                 }
