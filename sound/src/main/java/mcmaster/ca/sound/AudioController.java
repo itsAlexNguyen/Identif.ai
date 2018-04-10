@@ -13,6 +13,8 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 import android.Manifest;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
@@ -25,18 +27,19 @@ import android.widget.Toast;
 import mcmaster.ca.appcore.datastore.DataController;
 import static mcmaster.ca.appcore.datastore.DataController.RESULTS_PARAM;
 import mcmaster.ca.appcore.datastore.ActorModel;
+import mcmaster.ca.appcore.ui.BaseActivity;
 import mcmaster.ca.sound.models.Artist;
 import mcmaster.ca.sound.models.Music;
 import mcmaster.ca.sound.models.SoundResult;
 
-public class AudioController extends AppCompatActivity implements IACRCloudListener {
+public class AudioController extends BaseActivity implements IACRCloudListener {
     public static final int RESULT_CODE = 3003;
     private ACRCloudClient mClient;
     private ACRCloudConfig mConfig;
 
     private boolean mProcessing = false;
     private boolean initState = false;
-
+    private ProgressDialog listeningDialog;
     private String path = "";
 
     @Override
@@ -53,6 +56,15 @@ public class AudioController extends AppCompatActivity implements IACRCloudListe
         path = Environment.getExternalStorageDirectory().toString()
             + "/acrcloud/model";
 
+        listeningDialog = new ProgressDialog(this);
+        listeningDialog.setMessage("Listening...");
+        listeningDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialogInterface) {
+                cancel();
+            }
+        });
+
         File file = new File(path);
         if (!file.exists()) {
             file.mkdirs();
@@ -61,37 +73,14 @@ public class AudioController extends AppCompatActivity implements IACRCloudListe
         Button startBtn = (Button)findViewById(R.id.start);
         startBtn.setText("Start");
 
-        Button stopBtn = (Button)findViewById(R.id.stop);
-        stopBtn.setText("Stop");
-
-        findViewById(R.id.stop).setOnClickListener(
-            new View.OnClickListener() {
-
-                @Override
-                public void onClick(View v) {
-                    stop();
-                }
-            });
-
-        Button cancelBtn = (Button)findViewById(R.id.cancel);
-        cancelBtn.setText("Cancel");
-
         findViewById(R.id.start).setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View arg0) {
+                listeningDialog.show();
                 sendAudioApi();
             }
         });
-
-        findViewById(R.id.cancel).setOnClickListener(
-            new View.OnClickListener() {
-
-                @Override
-                public void onClick(View v) {
-                    cancel();
-                }
-            });
 
         this.mConfig = new ACRCloudConfig();
         this.mConfig.acrcloudListener = this;
@@ -108,10 +97,17 @@ public class AudioController extends AppCompatActivity implements IACRCloudListe
         this.initState = this.mClient.initWithConfig(this.mConfig);
         if (this.initState) {
             this.mClient
-                .startPreRecord(3000); //sendAudioApi prerecord, you can call "this.mClient.stopPreRecord()" to stop prerecord.
+                .startPreRecord(
+                    3000); //sendAudioApi prerecord, you can call "this.mClient.stopPreRecord()" to stop prerecord.
         }
     }
 
+    protected void cancel() {
+        if (mProcessing && this.mClient != null) {
+            mProcessing = false;
+            this.mClient.cancel();
+        }
+    }
 
     public void sendAudioApi() {
         if (!this.initState) {
@@ -127,27 +123,13 @@ public class AudioController extends AppCompatActivity implements IACRCloudListe
         }
     }
 
-    protected void stop() {
-        if (mProcessing && this.mClient != null) {
-            this.mClient.stopRecordToRecognize();
-        }
-        mProcessing = false;
-    }
-
-    protected void cancel() {
-        if (mProcessing && this.mClient != null) {
-            mProcessing = false;
-            this.mClient.cancel();
-        }
-    }
-
     @Override
     public void onResult(String result) {
         if (this.mClient != null) {
             this.mClient.cancel();
             mProcessing = false;
         }
-
+        listeningDialog.dismiss();
         Gson gson = new GsonBuilder().create();
         Type type = new TypeToken<SoundResult>() {}.getType();
         SoundResult soundResult = gson.fromJson(result, type);
