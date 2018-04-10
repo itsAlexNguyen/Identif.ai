@@ -16,6 +16,7 @@ import mcmaster.ca.identifai.R;
 import java.util.List;
 
 public class SaveSearchesController extends AppCompatActivity {
+    private List<AppSearchResult> results;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,7 +24,7 @@ public class SaveSearchesController extends AppCompatActivity {
         setContentView(R.layout.activity_save_searches_controller);
         setTitle(R.string.saved_searches_header);
         AppPreferenceManager preferenceManager = new AppPreferenceManager(this);
-        List<AppSearchResult> results = preferenceManager.getSavedSearchResults();
+        results = preferenceManager.getSavedSearchResults();
         RecyclerView recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(new SaveSearchesController.Adapter(results));
@@ -40,6 +41,26 @@ public class SaveSearchesController extends AppCompatActivity {
         };
     }
 
+    private InputListener<AppSearchResult> createDeleteListener() {
+        return new InputListener<AppSearchResult>() {
+            @Override
+            public void onInputReceived(AppSearchResult value) {
+                if (results != null) {
+                    for (int i = 0; i < results.size(); i++) {
+                        if (results.get(i).date.equalsIgnoreCase(value.date)) {
+                            results.remove(i);
+                            RecyclerView recyclerView = findViewById(R.id.recycler_view);
+                            recyclerView.setLayoutManager(new LinearLayoutManager(SaveSearchesController.this));
+                            recyclerView.setAdapter(new SaveSearchesController.Adapter(results));
+                            return;
+                        }
+                    }
+                }
+            }
+        };
+    }
+
+
     public class Adapter extends AbstractDataBindAdapter {
         private final List<AppSearchResult> results;
 
@@ -51,7 +72,7 @@ public class SaveSearchesController extends AppCompatActivity {
         private void buildRows() {
             listItems.clear();
             for (AppSearchResult search : results) {
-                listItems.add(new SearchResultsBinder(search, createResultListener()));
+                listItems.add(new SearchResultsBinder(search, createResultListener(), createDeleteListener()));
             }
         }
     }

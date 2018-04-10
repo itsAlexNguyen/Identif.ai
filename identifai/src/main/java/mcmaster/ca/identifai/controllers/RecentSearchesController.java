@@ -41,6 +41,25 @@ public class RecentSearchesController extends AppCompatActivity {
         };
     }
 
+    private InputListener<AppSearchResult> createDeleteListener() {
+        return new InputListener<AppSearchResult>() {
+            @Override
+            public void onInputReceived(AppSearchResult value) {
+                if (results != null) {
+                    for (int i = 0; i < results.size(); i++) {
+                        if (results.get(i).date.equalsIgnoreCase(value.date)) {
+                            results.remove(i);
+                            RecyclerView recyclerView = findViewById(R.id.recycler_view);
+                            recyclerView.setLayoutManager(new LinearLayoutManager(RecentSearchesController.this));
+                            recyclerView.setAdapter(new RecentSearchesController.Adapter(results));
+                            return;
+                        }
+                    }
+                }
+            }
+        };
+    }
+
     public class Adapter extends AbstractDataBindAdapter {
         private final List<AppSearchResult> results;
 
@@ -52,7 +71,7 @@ public class RecentSearchesController extends AppCompatActivity {
         private void buildRows() {
             listItems.clear();
             for (AppSearchResult search : results) {
-                listItems.add(new SearchResultsBinder(search, createResultListener()));
+                listItems.add(new SearchResultsBinder(search, createResultListener(), createDeleteListener()));
             }
         }
     }

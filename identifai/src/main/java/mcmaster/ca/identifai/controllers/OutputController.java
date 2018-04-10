@@ -11,6 +11,7 @@ import mcmaster.ca.appcore.common.AppPreferenceManager;
 import mcmaster.ca.appcore.common.InputListener;
 import mcmaster.ca.appcore.datastore.ActorModel;
 import mcmaster.ca.appcore.network.models.AppSearchResult;
+import mcmaster.ca.appcore.ui.BaseActivity;
 import mcmaster.ca.appcore.ui.adapters.AbstractDataBindAdapter;
 import mcmaster.ca.appcore.ui.binder.PersonDataBinder;
 import mcmaster.ca.identifai.R;
@@ -18,7 +19,7 @@ import mcmaster.ca.identifai.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OutputController extends AppCompatActivity {
+public class OutputController extends BaseActivity {
     public static final String RESULTS_PARAM = "ResultsPARAM";
     public static final String IS_RECENT_SEARCH_PARAM = "isRecentSearch";
 
@@ -65,6 +66,7 @@ public class OutputController extends AppCompatActivity {
         AppPreferenceManager preferenceManager = new AppPreferenceManager(this);
         AppSearchResult newSearch = new AppSearchResult(resultList);
         preferenceManager.saveSearchResult(newSearch);
+        displayPrompt(getString(R.string.saved_successful));
     }
 
     private void goToSharing(ArrayList<ActorModel> resultList) {

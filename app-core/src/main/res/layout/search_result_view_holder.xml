@@ -19,4 +19,14 @@
         android:layout_height="wrap_content"
         android:padding="@dimen/app_default_padding"
         tools:text="10:00am" />
+
+    <TextView
+        android:id="@+id/delete_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="8dp"
+        android:background="@android:color/holo_red_dark"
+        android:padding="8dp"
+        android:text="Delete"
+        android:textColor="@android:color/white" />
 </LinearLayout>

@@ -29,6 +29,7 @@
     <string name="output_share">Share</string>
     <string name="output_save">Save</string>
     <string name="send_to">Share to..</string>
+    <string name="saved_successful">Your search has beeen successfully saved!</string>
 
     <!--Errors-->
     <string name="no_entry_yet">Please select at least one form of entry.</string>

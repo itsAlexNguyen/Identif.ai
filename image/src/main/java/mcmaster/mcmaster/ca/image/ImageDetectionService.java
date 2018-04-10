@@ -61,13 +61,13 @@ public final class ImageDetectionService {
             public void run() {
                 // Converts the Bitmap to a byte stream.
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                image.compress(Bitmap.CompressFormat.PNG, 0, stream);
+                image.compress(Bitmap.CompressFormat.JPEG, 30, stream);
                 final byte[] bitmapdata = stream.toByteArray();
 
                 // Creates the MultiPartForm Data used to make request.
                 RequestBody requestBody = createDefaultBodyBuilder()
                     .setType(MultipartBody.FORM)
-                    .addFormDataPart(MEDIA_KEY, "celebrity.png", RequestBody.create(MEDIA_TYPE_PNG, bitmapdata))
+                    .addFormDataPart(MEDIA_KEY, "celebrity.jpg", RequestBody.create(MEDIA_TYPE_PNG, bitmapdata))
                     .build();
 
                 // Builds the Request to send to the network client.

@@ -13,10 +13,13 @@ import java.util.Date;
 public class SearchResultsBinder extends AbstractDataBinder<SearchResultViewHolder> {
     private final AppSearchResult result;
     private final InputListener<AppSearchResult> listener;
+    public final InputListener<AppSearchResult> deleteListener;
 
-    public SearchResultsBinder(AppSearchResult result, InputListener<AppSearchResult> listener) {
+    public SearchResultsBinder(AppSearchResult result, InputListener<AppSearchResult> listener,
+        InputListener<AppSearchResult> deleteListener) {
         this.result = result;
         this.listener = listener;
+        this.deleteListener = deleteListener;
     }
 
     @Override
@@ -31,6 +34,12 @@ public class SearchResultsBinder extends AbstractDataBinder<SearchResultViewHold
             @Override
             public void onClick(View view) {
                 listener.onInputReceived(result);
+            }
+        });
+        holder.deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                deleteListener.onInputReceived(result);
             }
         });
         Date date = AppDateFormatter.convertToDate(result.date);
