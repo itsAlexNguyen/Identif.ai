@@ -49,7 +49,10 @@ public class PersonDetailController extends BaseActivity implements HttpCallback
                         .resize(200, 200)
                         .placeholder(R.drawable.profile_placeholder)
                         .into(imageView);
+                    TextView description = findViewById(R.id.description_label);
+                    description.setText(response.results.get(0).toString());
                 }
+
             }
         });
     }

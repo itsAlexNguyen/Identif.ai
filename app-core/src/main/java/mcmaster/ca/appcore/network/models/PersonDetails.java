@@ -56,4 +56,15 @@ public final class PersonDetails implements Parcelable {
             return new PersonDetails[size];
         }
     };
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder("Known for: ");
+        sb.append("\n");
+        for (KnownFor knownFor : knownFors) {
+            sb.append(knownFor.title)
+                .append("\n");
+        }
+        return sb.toString();
+    }
 }
